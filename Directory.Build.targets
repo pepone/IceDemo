@@ -10,4 +10,15 @@
 			<LastGenOutput>$([System.String]::Copy('%(FileName)')).Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
+
+	<!-- Package SliceCompile items -->
+  <Target Name="PackSliceCompileItems" BeforeTargets="GenerateNuspec">
+    <CreateItem
+      Include="@(SliceCompile)"
+      Condition="'%(SliceCompile.Pack)' == 'true'"
+      AdditionalMetadata="PackagePath=%(SliceCompile.PackagePath)"
+    >
+      <Output TaskParameter="Include" ItemName="_PackageFiles" />
+    </CreateItem>
+  </Target>
 </Project>

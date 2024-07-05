@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Label="IceBuilder">
-		<SliceCompile Include="slice/**/*.ice">
+		<SliceCompile Include="slice/**/*.ice" Pack="True" PackagePath="content/native/Slice">
 			<IncludeDirectories>$(MSBuildProjectDirectory)\Slice</IncludeDirectories>
 			<AdditionalOptions>--tie</AdditionalOptions>			
 		</SliceCompile>
