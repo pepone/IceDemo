@@ -1,0 +1,65 @@
+<Project>
+	<PropertyGroup>		
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>		
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Platforms>AnyCPU;x86</Platforms>		
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<SuppressIces>$(SuppressIces);ICE03;ICE40</SuppressIces>
+		<NoWarn>$(NoWarn);NU1507</NoWarn>		
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyTitle>$(MSBuildProjectName)</AssemblyTitle>
+		<Company>A+W Software GmbH</Company>
+		<Product>$(MSBuildProjectName)</Product>
+		<Copyright>Copyright © $([System.DateTime]::Now.Year) A+W Software GmbH</Copyright>
+		<Authors>A+W Software GmbH</Authors>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests')) and !$(MSBuildProjectName.StartsWith('Geometry'))">
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)\readme.md" Pack="true" Visible="false" PackagePath="" />
+		<None Condition="Exists('$(MSBuildProjectDirectory)\$(OutputPath)\$(AssemblyName).dll')" Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" Visible="false" PackagePath="native/lib" />
+		<None Condition="Exists('$(MSBuildProjectDirectory)$(AssemblyName).targets')" Include="$(AssemblyName).targets" DeploymentContent="true" Pack="true" Visible="true" PackagePath="build" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.CLSCompliantAttribute">
+			<_Parameter1>false</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+	
+
+	<ItemGroup>
+		<!--<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" PrivateAssets="All" />-->
+		<!--<PackageReference Include="AW.SignatureKey" PrivateAssets="All" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<SourceRoot Include="$(MSBuildThisFileDirectory)/"/>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<AWVersion Condition=" '$(AWVersion)' == '' ">13.6.0.0</AWVersion>
+		<PreReleaseTag Condition=" '$(PreReleaseTag)' == '' ">-local</PreReleaseTag>
+		<PrefixLine Condition=" '$(PreReleaseTag)' != '' "></PrefixLine>
+
+		<AssemblyVersion Condition=" '$(AssemblyVersion)' == '' ">$(AWVersion)</AssemblyVersion>
+		<FileVersion>$(AWVersion)</FileVersion>
+		<Version>$(AWVersion)$(PrefixLine)$(PreReleaseTag)</Version>
+		<AssemblyInformationalVersion>$(AssemblyVersion)$(PrefixLine)$(PreReleaseTag)</AssemblyInformationalVersion>
+	</PropertyGroup>
+
+</Project>

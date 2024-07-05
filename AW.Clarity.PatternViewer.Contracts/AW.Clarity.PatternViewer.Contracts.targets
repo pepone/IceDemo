@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<AdditionalUsingDirectories>$(MSBuildThisFileDirectory)..\lib\native;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>			
+		</ClCompile>
+	</ItemDefinitionGroup>
+
+	<ItemGroup>
+		<AWCopyToOutput Include="$(MSBuildThisFileDirectory)..\lib\native\*.*" />
+	</ItemGroup>
+
+	<!--!NEVER EVER TOUCH THIS TARGET!-->
+	<!--It will be overwritten by the last installed AW nuget package defining this target.-->
+	<!--BeforeBuild for c# and PrepareForBuild for c++-->
+	<Target Name="AWCopy" BeforeTargets="BeforeBuild;PrepareForBuild">
+		<Error Text="[Nuget] A+W Project Configuration is unknown. It must contain *ebug* for Debug or *elease* for Release." Condition="'$(ConfigurationTarget)' == 'Error'" />
+		<Copy SourceFiles="@(AWCopyToOutput)" DestinationFolder="$(OutputPath)" ContinueOnError="true" />
+		<Copy SourceFiles="@(AWCopyToOutputWithDirectory)" DestinationFiles="@(AWCopyToOutputWithDirectory->'$(OutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+	</Target>
+</Project>

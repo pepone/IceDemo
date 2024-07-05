@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+  <!-- Pattern Viewer callback Identity -->
+  <object id="patternClientCallbackIdentity" factory-object="iceClientProxyFactory" factory-method="CreateCallbackIdentity" />
+
+  <!-- Pattern Viewer callback Servant as Tie -->
+  <object id="patternViewerCallbackServant" type="AW.Clarity.PatternViewer.Contracts.Interfaces.PatternViewerCallbackTie_, AW.Clarity.PatternViewer.Contracts">
+    <constructor-arg index="0" ref="patternViewerCallbackReceiver"/>
+  </object>
+
+  <!-- Pattern Viewer callback Adapter -->
+  <object id="patternViewerCallbackAdapter" factory-object="iceClientProxyFactory" factory-method="CreateCallbackAdapter">
+    <constructor-arg name="identity" ref="patternClientCallbackIdentity" />
+    <constructor-arg name="servant" ref="patternViewerCallbackServant" />
+  </object>
+
+
+
+  <!-- Pattern Viewer Server dictionary, with all services serving "AW.Clarity.PatternViewer" currently active -->
+  <object id="patternViewerServers"
+          type="System.Collections.Generic.IDictionary&lt;string, AWSOA.Core.Client.Communication.ServerInformation&gt;"
+          factory-object="iceClientProxyFactory"
+          factory-method="GetAllServerIdentitiesByTypeName" >
+    <constructor-arg index="0" type="string" value="AW.Clarity.PatternViewer" />
+  </object>
+
+  <!-- Pattern Viewer server ache, for connecting to a multisite services -->
+  <object name="patternViewerServerCache"
+          type="AWSOA.Core.Client.Communication.MultisiteServerCache&lt;[AW.Clarity.PatternViewer.Contracts.Interfaces.IPatternViewer, AW.Clarity.PatternViewer.Contracts], [AW.Clarity.PatternViewer.Contracts.Interfaces.PatternViewerProxy, AW.Clarity.PatternViewer.Contracts]&gt;, AWSOA.Core.Client"
+          singleton="true" >
+    <constructor-arg index="0" ref="patternViewerServers" />
+    <constructor-arg index="1" ref="iceClientProxyFactory" />
+    <constructor-arg index="2" ref="patternViewerCallbackAdapter"/>
+  </object>
+</objects>

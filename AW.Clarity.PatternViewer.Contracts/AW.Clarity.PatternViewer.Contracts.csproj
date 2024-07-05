@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<OutputType>Library</OutputType>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PlatformTarget>x86</PlatformTarget>
+	</PropertyGroup>
+
+	<ItemGroup Label="IceBuilder">
+		<SliceCompile Include="slice/**/*.ice">
+			<IncludeDirectories>$(MSBuildProjectDirectory)\Slice</IncludeDirectories>
+			<AdditionalOptions>--tie</AdditionalOptions>			
+		</SliceCompile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Slice/**/*.ice" Pack="true" Visible="true" PackagePath="content/native/slice" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Compile Update="**/*.generated.cs">
+			<DependentUpon>GeneratedCode.txt4</DependentUpon>
+		</Compile>
+		<None Remove="generated\SliceCompile.*.d" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Config\*.xml" />
+	</ItemGroup>
+
+	<ItemGroup>		
+		<!--<PackageReference Include="AWSOA.Core.Contracts" />-->
+		
+		<PackageReference Include="zeroc.ice.net" />
+		<PackageReference Include="zeroc.icebuilder.msbuild" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="AWSOA.Core.Contracts">
+	    <HintPath>..\AWSOA.Core.Contracts.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	
+</Project>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>AW.Clarity.PatternViewer.Contracts</id>
+        <version>$version$$prerelease$</version>
+        <title>A+W Clarity PatternViewer Contracts</title>
+        <authors>$author$</authors>
+        <owners>A+W Software</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>PatternViewer contratcs to connect to a new A+W Clarity PatternViewer</description>
+        <summary>PatternViewer contratcs to connect to a new A+W Clarity PatternViewer</summary>
+        <copyright>A+W Software GmbH</copyright>
+        <language>en-US</language>
+        <dependencies>
+            <group targetFramework="net45">
+                <dependency id="zeroc.ice.net" version="3.7.4" />
+                <dependency id="AWSOA.Core.Contracts" version="[$NugetRangeLatest$,$NugetRangeMax$)" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\x86\$configuration$\AW.Clarity.PatternViewer.Contracts.dll" target="lib\net45" />
+       <file src="Slice\PatternViewer\*.ice" target="content\native\Slice\PatternViewer" />
+		<file src="bin\x86\$configuration$\AW.Clarity.PatternViewer.Contracts.dll" target="lib\native" />
+		<file src="AW.Clarity.PatternViewer.Contracts.targets" target="build" />
+    </files>
+</package>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+  <!-- Pattern Remote Server dictionary, with all services serving "AW.Clarity.PatternViewer.Remote" currently active -->
+  <object id="patternRemoteServers"
+          type="System.Collections.Generic.IDictionary&lt;string, AWSOA.Core.Client.Communication.ServerInformation&gt;"
+          factory-object="iceClientProxyFactory"
+          factory-method="GetAllServerIdentitiesByTypeName" >
+    <constructor-arg index="0" type="string" value="AW.Clarity.PatternViewer.Remote" />
+  </object>
+
+  <!-- Pattern Remnote server cache, for connecting to a multisite services -->
+  <object name="patternRemoteServerCache"
+          type="AWSOA.Core.Client.Communication.MultisiteServerCache&lt;[AW.Clarity.PatternViewer.Contracts.Interfaces.IRemote, AW.Clarity.PatternViewer.Contracts], [AW.Clarity.PatternViewer.Contracts.Interfaces.RemoteProxy, AW.Clarity.PatternViewer.Contracts]&gt;, AWSOA.Core.Client"
+          singleton="true" scope="session" >
+    <constructor-arg index="0" ref="patternRemoteServers" />
+    <constructor-arg index="1" ref="iceClientProxyFactory" />
+  </object>
+
+</objects>

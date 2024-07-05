@@ -1,0 +1,13 @@
+<Project>
+	<ItemGroup>
+		<Compile Update="Properties\**\*.designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Properties\$([System.String]::Copy('%(FileName)').Replace('.Designer', '')).resx</DependentUpon>
+		</Compile>
+		<EmbeddedResource Update="**\*.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>$([System.String]::Copy('%(FileName)')).Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+</Project>
